@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<title>Utraco Piling Calculator</title>
+	<style>
+		input[type="number"] {
+			width: 100%;
+			padding: 12px 20px;
+			margin: 8px 0;
+			box-sizing: border-box;
+			border: none;
+			border-bottom: 2px solid #ccc;
+		}
+			button {
+		background-color: #4CAF50;
+		color: white;
+		padding: 14px 20px;
+		margin: 8px 0;
+		border: none;
+		cursor: pointer;
+		width: 100%;
+	}
+
+	button:hover {
+		opacity: 0.8;
+	}
+
+	.container {
+		padding: 16px;
+		background-color: #f2f2f2;
+		border-radius: 5px;
+		box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+	}
+
+	h2 {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+	h3 {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+	/* Default font size for all devices */
+	#pile-result {font-size: 14px;}
+	#result {font-size: 14px;}
+
+	/* Font size for devices with a maximum width of 600px (e.g. smartphones) */
+	@media only screen and (max-width: 600px) {
+	#pile-result {font-size: 12px;}
+	#result {font-size: 12px;}
+	}
+
+	/* Font size for devices with a minimum width of 601px (e.g. tablets and PCs) */
+	@media only screen and (min-width: 601px) {
+	#pile-result {
+    font-size: 18px;
+	}
+	#result {
+    font-size: 18px;
+	}
+	}
+	</style>
+
+  </a></div>
+	<div class="container">
+		<h2>Utraco Piling Calculator</h2>
+			<!-- Pile Installation Record Section -->
+	<h3>Pile Installation Record</h3>
+	<form id="pile-form">
+		<label for="casing-top-level">Casing Top Level (RLm/mSHD)</label>
+		<input type="number" id="casing-top-level" step="0.001" required="">
+
+		<label for="ground-level">Ground Level (RLm/mSHD)</label>
+		<input type="number" id="ground-level" step="0.001" required="">
+
+		<label for="cut-off-level">Cut off Level (RLm/mSHD)</label>
+		<input type="number" id="cut-off-level" step="0.001" required="">
+
+		<label for="actual-length-from-casing-top">Actual Length from Casing Top Level "Tape Length" (m)</label>
+		<input type="number" id="actual-length-from-casing-top" step="0.001" required="">
+
+		<label for="design-depth-from-col">Design Length from Cut Off Level (m)</label>
+		<input type="number" id="design-depth-from-col" step="0.001" required="">
+
+		<button type="submit">Calculate</button>
+	</form>
+	<div id="pile-result">
+		<p>Actual Toe Level (RLm/mSHD): <span id="actual-toe-level"></span></p>
+		<p>Actual Length from COL "Pay Length" (m): <span id="pay-length"></span></p>
+		<p>Actual Penetration from Ground Level (m): <span id="actual-penetration-from-ground-level"></span></p>
+		<p>Design Toe Level (RLm/mSHD): <span id="design-toe-level"></span></p>
+		<p>Design Depth from Casing Top Level (m): <span id="actual-design-depth-from-casing-top-level"></span></p>
+	</div>
+
+	<!-- Script for Pile Installation Record Calculation -->
+	<script>
+		document.getElementById("pile-form").addEventListener("submit", function(event) {
+			event.preventDefault();
+			const casing_top_level = parseFloat(document.getElementById("casing-top-level").value);
+			const ground_level = parseFloat(document.getElementById("ground-level").value);
+			const cut_off_level = parseFloat(document.getElementById("cut-off-level").value);
+		const actual_length_from_casing_top = parseFloat(document.getElementById("actual-length-from-casing-top").value);
+		const design_depth_from_col = parseFloat(document.getElementById("design-depth-from-col").value);
+
+		// Calculate the actual toe level and pay length
+		let actual_toe_level = casing_top_level - actual_length_from_casing_top;
+		let pay_length = cut_off_level - actual_toe_level;
+		let actual_pen_from_GL = ground_level - actual_toe_level;
+		let design_toe_level = cut_off_level - design_depth_from_col;
+		let actual_design_depth_from_CTL = casing_top_level - design_toe_level;
+
+		// Rounding to 3 decimal places
+		actual_toe_level = actual_toe_level.toFixed(3);
+		pay_length = pay_length.toFixed(3);
+		actual_pen_from_GL = actual_pen_from_GL.toFixed(3);
+		design_toe_level = design_toe_level.toFixed(3);
+		actual_design_depth_from_CTL = actual_design_depth_from_CTL.toFixed(3);
+		
+		// Display the results
+		document.getElementById("actual-toe-level").textContent = actual_toe_level;
+		document.getElementById("pay-length").textContent = pay_length;
+		document.getElementById("actual-penetration-from-ground-level").textContent = actual_pen_from_GL;
+		document.getElementById("design-toe-level").textContent = design_toe_level;
+		document.getElementById("actual-design-depth-from-casing-top-level").textContent = actual_design_depth_from_CTL;
+	});
+	</script>
+	
+	<!-- End of Script for Pile Installation Record Calculation -->
+
+
+  <title>Substrate Calculation</title>
+
+
+  <h3>Substrate Calculation</h3>
+<div>
+  <form>
+    <label for="bhr">Bore Hole Reduced Level (RLm/mSHD):</label>
+    <input type="number" id="bhr" step="0.001" required=""><br>
+
+    <label for="target">Substrate (SPT100/OA/G4/G3) Depth (m):</label>
+    <input type="number" id="target" step="0.001" required=""><br>
+
+    <label for="confirmed">Actual Substrate Confirmed Level from CTL (m):</label>
+    <input type="number" id="confirmed" step="0.001" required=""><br>
+	
+	<label for="casing-top-level1">Casing Top Level (RLm/mSHD):</label>
+    <input type="number" id="casing-top-level1" step="0.001" required=""><br>
+	
+	<label for="actual-length-from-casing-top1">Actual Length from Casing Top Level "Tape Length" (m)</label>
+	<input type="number" id="actual-length-from-casing-top1" step="0.001" required="">
+	
+    <button type="button" onclick="calculate()">Calculate</button>
+  </form>
+
+  <div id="result">
+    <p>Actual Substrate Level (RLm/mSHD): <span id="actual_substrate_level"></span></p>
+    <p>Difference Between BH and On Site Level (m): <span id="actual_difference"></span></p>
+    <p>Socketing Length (m): <span id="actual_socketing_len"></span></p>
+  </div>
+</div>
+
+<script>
+function calculate() {
+  const bhr_level = parseFloat(document.getElementById("bhr").value);
+  const target_level = parseFloat(document.getElementById("target").value);
+  const confirmed_measured_level = parseFloat(document.getElementById("confirmed").value);
+  const casing_top_level = parseFloat(document.getElementById("casing-top-level1").value);
+  const actual_length_from_casing_top = parseFloat(document.getElementById("actual-length-from-casing-top1").value);
+
+	// Calculate the actual toe level and pay length
+
+  let substrate_level = bhr_level - target_level;
+  let confirmed_level = casing_top_level - confirmed_measured_level;
+  let socketing_len = actual_length_from_casing_top - confirmed_measured_level;
+  let diff_bh_vs_site = substrate_level - confirmed_level;
+		
+	// Rounding to 3 decimal places
+	actual_substrate_level = substrate_level.toFixed(3);
+	actual_difference = diff_bh_vs_site.toFixed(3);
+	actual_socketing_len = socketing_len.toFixed(3);
+
+  // Display the results
+  document.getElementById("actual_substrate_level").innerHTML = actual_substrate_level;
+  document.getElementById("actual_difference").innerHTML = actual_difference;
+  document.getElementById("actual_socketing_len").innerHTML = actual_socketing_len;
+
+  // Display the result section
+  document.getElementById("result").style.display = "block";
+}
+</script>
+
+
+
+
+</div></body></html>
